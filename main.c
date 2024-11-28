@@ -64,17 +64,25 @@ int main(void) {
         return -1;
     }
     
-    /* Fill out here by invoking retrieve_data() */
-
     /* read each line and get the data in given (address, type) by invoking retrieve_data() */
+    while (fscanf(ifp, "%lx %c", &access_addr, &access_type) != EOF) {
+        accessed_data = retrieve_data((void *)access_addr, access_type);
+        fprintf(ofp, "Address: %lx, Type: %c, Data: %d\n", access_addr, access_type, accessed_data);
+    }
+    /*This loop reads pairs of an address and a type from ifp, and processes them using the 
+    retrieve_data function, and writes the results to ofp. The loop continues until the end of 
+    the input file is reached.*/
 
     /* print hit ratio and bandwidth for each cache mechanism as regards to cache association size */
+    fprintf(ofp, "Cache Hits: %d\n", num_cache_hits);
+    fprintf(ofp, "Cache Misses: %d\n", num_cache_misses);
+    fprintf(ofp, "Hit Ratio: %.2f%%\n", (num_cache_hits * 100.0) / (num_cache_hits + num_cache_misses));
+    fprintf(ofp, "Bandwidth: %d bytes\n", num_bytes);
 
     /* close files */
     fclose(ifp);
     fclose(ofp);
 
-    
     /* print the final cache entries by invoking print_cache_entries() */ 
     print_cache_entries();
     return 0;
