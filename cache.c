@@ -14,6 +14,7 @@
 #include <string.h>
 #include "cache_impl.h"
 
+/* get the global variables in other files */
 extern int num_cache_hits;
 extern int num_cache_misses;
 
@@ -22,9 +23,12 @@ extern int num_access_cycles;
 
 extern int global_timestamp;
 
+/* new variables used in this file */
 cache_entry_t cache_array[CACHE_SET_SIZE][DEFAULT_CACHE_ASSOC];
+// data in cache with size (# of sets X # of associations),
+// 4X1 for direct, 2X2 for 2-way, 1X4 for fully
 int memory_array[DEFAULT_MEMORY_SIZE_WORD];
-
+// data in memory with size of 128 words
 
 /* DO NOT CHANGE THE FOLLOWING FUNCTION */
 void init_memory_content() {
