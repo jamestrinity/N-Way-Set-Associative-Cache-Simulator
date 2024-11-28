@@ -42,7 +42,7 @@ int retrieve_data(void *addr, char data_type) {
 }
 
 int main(void) {
-    FILE *ifp = NULL, *ofp = NULL; // file pointers
+    FILE * ifp = NULL, *ofp = NULL; // file pointers
     unsigned long int access_addr; /* byte address (located at 1st column) in "access_input.txt" */
     char access_type; /* 'b'(byte), 'h'(halfword), or 'w'(word) (located at 2nd column) in "access_input.txt" */
     int accessed_data; /* This is the data that you want to retrieve first from cache, and then from memory */ 
@@ -63,21 +63,21 @@ int main(void) {
         fclose(ifp);
         return -1;
     }
+
     
     /* read each line and get the data in given (address, type) by invoking retrieve_data() */
     while (fscanf(ifp, "%lx %c", &access_addr, &access_type) != EOF) {
         accessed_data = retrieve_data((void *)access_addr, access_type);
         fprintf(ofp, "Address: %lx, Type: %c, Data: %d\n", access_addr, access_type, accessed_data);
     }
-    /*This loop reads pairs of an address and a type from ifp, and processes them using the 
-    retrieve_data function, and writes the results to ofp. The loop continues until the end of 
-    the input file is reached.*/
 
     /* print hit ratio and bandwidth for each cache mechanism as regards to cache association size */
-    fprintf(ofp, "Cache Hits: %d\n", num_cache_hits);
-    fprintf(ofp, "Cache Misses: %d\n", num_cache_misses);
-    fprintf(ofp, "Hit Ratio: %.2f%%\n", (num_cache_hits * 100.0) / (num_cache_hits + num_cache_misses));
-    fprintf(ofp, "Bandwidth: %d bytes\n", num_bytes);
+    double hit_ratio = (double)num_cache_hits / (num_cache_hits + num_cache_misses);
+    double bandwidth = (double)num_bytes / num_access_cycles;
+
+    fprintf(ofp, "Cache Hit Ratio: %.2f\n", hit_ratio);
+    fprintf(ofp, "Bandwidth: %.2f bytes/cycle\n", bandwidth);
+
 
     /* close files */
     fclose(ifp);
