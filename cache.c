@@ -79,15 +79,44 @@ void print_cache_entries() {
     }
 }
 
-int check_cache_data_hit(void *addr, char type) {
+
 
     /* Fill out here */
 
+int check_cache_data_hit(void *addr, char type) {
+    // Calculate set index and tag
+    int set_index = ((uintptr_t)addr >> BLOCK_OFFSET_BITS) & (CACHE_SET_SIZE - 1);
+    int tag = (uintptr_t)addr >> (BLOCK_OFFSET_BITS + SET_INDEX_BITS);
 
+    // Search for the address in the cache set
+    for (int i = 0; i < DEFAULT_CACHE_ASSOC; i++) {
+        cache_entry_t *entry = &cache_array[set_index][i];
 
+        // Check if the entry is valid and the tag matches
+        if (entry->valid && entry->tag == tag) {
+            num_cache_hits++; // Update hit counter
+            entry->timestamp = global_timestamp++; // Update timestamp for LRU replacement
 
+            // Return the requested data based on the access type
+            int block_offset = (uintptr_t)addr % DEFAULT_CACHE_BLOCK_SIZE_BYTE;
+            switch (type) {
+                case 'b': // Byte access
+                    return entry->data[block_offset];
+                case 'h': // Halfword (2 bytes)
+                    return *((uint16_t *)&entry->data[block_offset]);
+                case 'w': // Word (4 bytes)
+                    return *((int *)&entry->data[block_offset]);
+                default:
+                    printf("Invalid access type: %c\n", type);
+                    return -1;
+            }
+        }
+    }
 
-
+    // Cache miss
+    num_cache_misses++;
+    return -1; // Data not found in the cache
+}
 
     /* Return the data */
     return 0;    
@@ -97,14 +126,29 @@ int find_entry_index_in_set(int cache_index) {
     int entry_index;
 
     /* Check if there exists any empty cache space by checking 'valid' */
+    int entry_index = -1;
+    int oldest_timestamp = global_timestamp + 1; // Initialize with a large value
+
+    // Check for an empty cache space
+    for (int i = 0; i < DEFAULT_CACHE_ASSOC; i++) {
+        if (cache_array[cache_index][i].valid == 0) {
+            return i; // Return the first empty entry
+        }
+    }
+
+    // No empty space; find the least recently used (LRU) entry
+    for (int i = 0; i < DEFAULT_CACHE_ASSOC; i++) {
+        if (cache_array[cache_index][i].timestamp < oldest_timestamp) {
+            oldest_timestamp = cache_array[cache_index][i].timestamp;
+            entry_index = i;
+        }
+    }
+
+    return entry_index; // Return the index of the LRU entry
+}
 
 
     /* Otherwise, search over all entries to find the least recently used entry by checking 'timestamp' */
-
-
-
-    return entry_index; 
-}
 
 int access_memory(void *addr, char type) {
     
