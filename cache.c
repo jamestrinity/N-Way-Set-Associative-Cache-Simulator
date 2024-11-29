@@ -115,25 +115,28 @@ int check_cache_data_hit(void *addr, char type) {
 
 int find_entry_index_in_set(int cache_index) {
     int entry_index;
+    int temp;
 
-    // Check if there exists any empty cache space by checking 'valid'
+    /* Check if there exists any empty cache space by checking 'valid' */
     for (entry_index = 0; entry_index < DEFAULT_CACHE_ASSOC; entry_index++) {
         if (cache_array[cache_index][entry_index].valid == 0) {
-            return entry_index; // If there is an empty space, return the index of the empty cache entry
+            return entry_index; /* If there is an empty space, return the index of the empty cache entry */
         }
     }
     
-    // Otherwise, search over all entries to find the least recently used entry by checking 'timestamp'
-    int lru_index = 0;
-    int min_timestamp = cache_array[cache_index][0].timestamp;
-    for (entry_index = 1; entry_index < DEFAULT_CACHE_ASSOC; entry_index++) {
-        if (cache_array[cache_index][entry_index].timestamp < min_timestamp) {
-            min_timestamp = cache_array[cache_index][entry_index].timestamp;
-            lru_index = entry_index;
+    /* Otherwise, search over all entries to find the least recently used entry by checking 'timestamp' */
+    for (entry_index = 0; entry_index < DEFAULT_CACHE_ASSOC; entry_index++) {
+        if (cache_array[cache_index][entry_index].timestamp <= global_timestamp) {
+            temp = cache_array[cache_index][entry_index].timestamp;
+            if (temp < cache_array[cache_index][entry_index].timestamp) {
+                temp = cache_array[cache_index][entry_index].timestamp;
+            }
         }
     }
 
-    return lru_index; // return index of LRU entry
+    entry_index = temp;
+
+    return entry_index; /* return index of LRU entry*/  
 }
 
 int access_memory(void *addr, char type) {

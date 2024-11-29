@@ -55,10 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "code-runner.runInTerminal": true,
-  "code-runner.ignoreSelection": true,
-  "files.associations": {
-    "cache_impl.h": "c"
-  }
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }

@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/dahvi/OneDrive/Desktop/20493-01-Project-Skeleton/N-Way-Set-Associative-Cache-Simulator",
-      "program": "c:/Users/dahvi/OneDrive/Desktop/20493-01-Project-Skeleton/N-Way-Set-Associative-Cache-Simulator/build/Debug/outDebug",
+      "cwd": "c:/Users/dahvi/N-Way-Set-Associative-Cache-Simulator",
+      "program": "c:/Users/dahvi/N-Way-Set-Associative-Cache-Simulator/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
