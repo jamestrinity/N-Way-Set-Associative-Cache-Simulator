@@ -77,6 +77,8 @@ int main(void) {
     /* Read access_input.txt and invoke retrieve_data() */
     while (fscanf(ifp, "%lu %c", &access_addr, &access_type) != EOF) {
         accessed_data = retrieve_data((void*)access_addr, access_type, ofp);
+        print_cache_entries();
+        printf("count\n");
     }
 
     /* Calculate and print hit ratio and bandwidth */
