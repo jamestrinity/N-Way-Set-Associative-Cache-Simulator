@@ -29,7 +29,7 @@ int retrieve_data(void *addr, char data_type) {
         return value_returned; 
     } else {
         /* In case of the cache miss event, access the main memory by invoking access_memory() */
-        value_returned = access_memory(addr, data_type);
+       value_returned = access_memory(addr, data_type);
         num_cache_misses++;
     }
 
@@ -68,7 +68,7 @@ int main(void) {
     /* read each line and get the data in given (address, type) by invoking retrieve_data() */
     while (fscanf(ifp, "%lx %c", &access_addr, &access_type) != EOF) {
         accessed_data = retrieve_data((void *)access_addr, access_type);
-        fprintf(ofp, "Address: %lx, Type: %c, Data: %d\n", access_addr, access_type, accessed_data);
+        fprintf(ofp, "Address: %lx, Type: %c, Data: %d\n", access_addr, access_type, accessed_data); /*prints the data to the output file in the correct format*/
     }
 
     /* print hit ratio and bandwidth for each cache mechanism as regards to cache association size */
