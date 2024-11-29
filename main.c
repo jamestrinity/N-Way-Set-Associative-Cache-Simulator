@@ -51,19 +51,23 @@ int retrieve_data(void* addr, char data_type, FILE* ofp) {
 }
 
 int main(void) {
-    FILE* ifp = NULL, * ofp = NULL;
-    uintptr_t access_addr;
-    char access_type;
-    int accessed_data;
+    FILE* ifp = NULL, * ofp = NULL; // file pointers
+    uintptr_t access_addr; /* byte address (located at 1st column) in "access_input.txt" */
+    char access_type; /* 'b'(byte), 'h'(halfword), or 'w'(word) (located at 2nd column) in "access_input.txt" */
+    int accessed_data; /* This is the data that you want to retrieve first from cache, and then from memory */ 
 
+
+    /* initialize memory and cache by invoking init_memory_content() and init_cache_content() */ 
     init_memory_content();
     init_cache_content();
 
+     /* open input file as reading mode */
     ifp = fopen("access_input.txt", "r");
     if (ifp == NULL) {
         printf("Can't open input file\n");
         return -1;
     }
+    /* open output file as writing mode */
     ofp = fopen("access_output.txt", "w");
     if (ofp == NULL) {
         printf("Can't open output file\n");
@@ -74,11 +78,16 @@ int main(void) {
     // Write header for accessed data
     fprintf(ofp, "[Accessed Data]\n");
 
-    /* Read access_input.txt and invoke retrieve_data() */
+    /* read each line and get the data in given (address, type) by invoking retrieve_data() */
     while (fscanf(ifp, "%lu %c", &access_addr, &access_type) != EOF) {
         accessed_data = retrieve_data((void*)access_addr, access_type, ofp);
+<<<<<<< Updated upstream
         print_cache_entries();
         printf("count\n");
+=======
+        print_cache_entries();     /* print the final cache entries by invoking print_cache_entries() */ 
+        printf("\n");
+>>>>>>> Stashed changes
     }
 
     /* Calculate and print hit ratio and bandwidth */
@@ -89,7 +98,7 @@ int main(void) {
 
     // Write the cache performance header based on DEFAULT_CACHE_ASSOC
     if (DEFAULT_CACHE_ASSOC == 1) {
-        fprintf(ofp, "[Direct mapped cache performance]\n");
+        fprintf(ofp, "[Direct mapped cache performance]\n"); 
     } else if (DEFAULT_CACHE_ASSOC == 2) {
         fprintf(ofp, "[2-way set associative cache performance]\n");
     } else if (DEFAULT_CACHE_ASSOC == 4) {
@@ -98,11 +107,14 @@ int main(void) {
         fprintf(ofp, "[%d-way set associative cache performance]\n", DEFAULT_CACHE_ASSOC);
     }
 
+    
     fprintf(ofp, "Hit ratio = %.2f (%d/%d)\n", hit_ratio, num_cache_hits, num_cache_hits + num_cache_misses);
     fprintf(ofp, "Bandwidth = %.2f (%d/%d)\n", bandwidth, num_bytes, num_access_cycles);
 
+    /* close files */
     fclose(ifp);
     fclose(ofp);
 
+    
     return 0;
 }

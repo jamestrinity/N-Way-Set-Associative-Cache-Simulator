@@ -115,7 +115,7 @@ int check_cache_data_hit(void *addr, char type) {
 
 int find_entry_index_in_set(int cache_index) {
     int entry_index;
-    int temp;
+    int temp; //temporary variable to hold the timestamp
 
     /* Check if there exists any empty cache space by checking 'valid' */
     for (entry_index = 0; entry_index < DEFAULT_CACHE_ASSOC; entry_index++) {
