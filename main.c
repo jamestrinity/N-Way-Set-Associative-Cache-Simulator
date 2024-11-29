@@ -39,7 +39,13 @@ int retrieve_data(void* addr, char data_type, FILE* ofp) {
     }
 
     // Write access result to file in the specified format
-    fprintf(ofp, "%lu\t%c\t0x%x\n", (unsigned long)address, data_type, value_returned);
+    if (data_type == 'b') {
+        fprintf(ofp, "%lu\t%c\t0x%x\n", (unsigned long)address, data_type, value_returned & 0xFF);
+    } else if (data_type == 'h') {
+        fprintf(ofp, "%lu\t%c\t0x%x\n", (unsigned long)address, data_type, value_returned & 0xFFFF);
+    } else if (data_type == 'w') {
+        fprintf(ofp, "%lu\t%c\t0x%x\n", (unsigned long)address, data_type, value_returned);
+    }
 
     return value_returned;
 }
