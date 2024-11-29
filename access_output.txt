@@ -5,6 +5,6 @@
 48	w	0xcdde3221
 69	b	0xed
 -----------------------------------------
-[Fully associative cache performance]
-Hit ratio = 0.40 (2/5)
-Bandwidth = 0.03 (10/302)
+[2-way set associative cache performance]
+Hit ratio = 0.20 (1/5)
+Bandwidth = 0.02 (10/401)
