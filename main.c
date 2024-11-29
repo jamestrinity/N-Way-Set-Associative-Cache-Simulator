@@ -84,7 +84,18 @@ int main(void) {
     double bandwidth = (double)num_bytes / num_access_cycles;
 
     fprintf(ofp, "-----------------------------------------\n");
-    fprintf(ofp, "[Direct mapped cache performance]\n");
+
+    // Write the cache performance header based on DEFAULT_CACHE_ASSOC
+    if (DEFAULT_CACHE_ASSOC == 1) {
+        fprintf(ofp, "[Direct mapped cache performance]\n");
+    } else if (DEFAULT_CACHE_ASSOC == 2) {
+        fprintf(ofp, "[2-way set associative cache performance]\n");
+    } else if (DEFAULT_CACHE_ASSOC == 4) {
+        fprintf(ofp, "[Fully associative cache performance]\n");
+    } else {
+        fprintf(ofp, "[%d-way set associative cache performance]\n", DEFAULT_CACHE_ASSOC);
+    }
+
     fprintf(ofp, "Hit ratio = %.2f (%d/%d)\n", hit_ratio, num_cache_hits, num_cache_hits + num_cache_misses);
     fprintf(ofp, "Bandwidth = %.2f (%d/%d)\n", bandwidth, num_bytes, num_access_cycles);
 

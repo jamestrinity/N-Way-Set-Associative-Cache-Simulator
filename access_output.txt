@@ -5,6 +5,6 @@
 48	w	0xcdde3221
 69	b	0xed
 -----------------------------------------
-[Direct mapped cache performance]
-Hit ratio = 0.20 (1/5)
-Bandwidth = 0.02 (10/401)
+[Fully associative cache performance]
+Hit ratio = 0.40 (2/5)
+Bandwidth = 0.03 (10/302)
