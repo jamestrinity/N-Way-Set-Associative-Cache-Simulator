@@ -1,0 +1,7 @@
+Address: 3, Type: b, Data: -1
+Address: 68, Type: h, Data: -1
+Address: 4, Type: h, Data: -1
+Address: 48, Type: w, Data: -1
+Address: 69, Type: b, Data: -1
+Cache Hit Ratio: 0.00
+Bandwidth: -1.#J bytes/cycle
