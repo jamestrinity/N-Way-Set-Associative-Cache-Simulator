@@ -1,0 +1,10 @@
+[Accessed Data]
+3	b	0x0
+68	h	0x0
+4	h	0x0
+48	w	0x0
+69	b	0x0
+-----------------------------------------
+[Direct mapped cache performance]
+Hit ratio = 1.00 (5/5)
+Bandwidth = -1.#J (0/0)
